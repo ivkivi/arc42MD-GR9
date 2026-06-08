@@ -1,0 +1,51 @@
+# Introduction and Goals
+
+## Requirements Overview
+
+The University Management System (UMS) is a web-based system that supports and simplifies important university processes.
+
+At the moment, many tasks are still handled manually using spreadsheets and emails. This takes a lot of time, increases the chance of mistakes, and makes communication more difficult than necessary.
+
+The goal of the system is to bring these processes together in one central platform for students, lecturers, and administrators.
+
+The main features of the system are:
+
+- course and curriculum management
+- enrollment management
+- attendance tracking
+- grading and transcript management
+- billing and payment management
+- reporting and analytics
+- user authentication and authorization
+- access to course materials
+
+The most important use cases are:
+
+- students enroll in courses
+- lecturers track attendance
+- lecturers manage grades
+- students view course material
+- administrators generate reports
+
+Overall, the system should reduce manual work, improve communication, and make university processes more efficient and reliable.
+
+The requirements summarized in this section are based on the Business Requirements Document, the Use Case Document, and the stakeholder interview.
+
+## Quality Goals
+
+| Priority | Quality Goal | Motivation / Scenario |
+|---|---|---|
+| 1 | Usability | The system will be used by students, lecturers, and administrators. It should be easy to understand and simple to use for all user groups. |
+| 2 | Security | The system handles sensitive information such as student data, grades, and attendance records. This data must be protected and only be accessible to authorized users. |
+| 3 | Reliability | The system should work correctly and be available during important processes such as course enrollment, attendance tracking, and grade submission. |
+
+## Stakeholders
+
+| Role/Name | Contact | Expectations |
+|---|---|---|
+| John Smith, University Administrator | University Administration | Needs a reliable system that supports administrative work and reduces manual effort. |
+| Michael Lee, Chief Information Officer | University IT Department | Expects a secure system that can integrate with existing university systems and support long-term operation. |
+| Jane Doe, Senior Lecturer | Faculty | Needs support for grading, attendance tracking, easier communication with students, and less manual administrative work. |
+| Emily Chen, Student Representative | Students | Expects a user-friendly system for enrollment, course materials, grades, and notifications. |
+| Sarah Johnson, Financial Officer | Finance Department | Needs correct and reliable handling of billing and financial data. |
+| Project Team | Development Team | Needs clear requirements, understandable documentation, and a realistic project scope. |

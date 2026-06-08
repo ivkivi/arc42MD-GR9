@@ -1,0 +1,13 @@
+# Solution Strategy
+
+The overall strategy is to design the University Management System as an integrated, web-based platform that supports the most important university processes in one system.
+
+The main solution approaches are:
+
+- Use a modular monolith to keep the system manageable while still separating the main functional areas.
+- Provide the system as a cloud-hosted web application so that all user groups can access it.
+- Integrate existing university systems through clearly defined APIs.
+- Use role-based access control to separate permissions for students, lecturers, administrators, and finance staff.
+- Support important workflows such as enrollment, attendance tracking, grading, and notifications.
+
+This strategy supports the main project goals of reducing manual work, lowering the risk of human error, improving communication, and creating a more reliable system for academic administration.

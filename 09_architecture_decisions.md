@@ -1,0 +1,9 @@
+# Architecture Decisions
+
+This section summarizes the main architecture decisions of the system.
+
+| Problem | Considered Alternatives | Decision |
+|---|---|---|
+| The system should support multiple university processes in one application. | Microservices, SOA, Modular Monolith | A modular monolith was chosen because the university processes are closely related and this approach offers lower complexity and easier maintenance for the rather small development team. |
+| The application must communicate with the existing student information and finance systems. | Direct database access, file import/export, API integration | API integration was chosen because it reduces coupling and provides a clear and maintainable interface between systems. |
+| Different user groups require different access permissions. | Shared access, manually assigned permissions, role-based access control | Role-based access control (RBAC) was chosen because it allows permissions to be managed clearly for students, lecturers, administrators, and finance staff. |
