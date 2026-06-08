@@ -1,61 +1,87 @@
 # Cross-cutting Concepts
 
-## Content
+## 8.1 Authentication and Authorization
 
-This section describes cross-cutting concepts, such as practices, patterns, regulations, or solution ideas.
+All access to the UMS is controlled through a unified authentication and authorization mechanism that applies to every module and every user group.
 
-Such concepts are often related to multiple building blocks.
+Authentication is handled via JSON Web Tokens (JWT). When a user logs in, the backend issues a signed JWT that the client includes in every subsequent request. The backend validates the token on each request without requiring server-side session storage, which supports stateless and scalable deployments.
 
-They may include many different topics, such as the topics shown in the following diagram:
+Authorization is implemented using Role-Based Access Control (RBAC). Each user is assigned exactly one role at login. The available roles are:
 
-![Possible topics for cross-cutting concepts](../images/08-concepts-EN.drawio.png)
+| Role          | Description                                                                                           |
+|---------------|-------------------------------------------------------------------------------------------------------|
+| Student       | Can enroll in courses, view grades and attendance, access course materials, and manage personal data. |
+| Lecturer      | Can record attendance, submit grades, upload course materials, and view their assigned courses.       |
+| Administrator | Can manage users, courses, schedules, and generate reports.                                           |
+| Finance Staff | Can manage billing, process payments, and access financial reports.                                   |
 
-## Motivation
+Every API endpoint in the Node.js backend declares the minimum required role. Requests from users with insufficient privileges are rejected with HTTP 403 before reaching the business logic.
 
-Concepts form the basis for **conceptual integrity**, meaning consistency and homogeneity of the architecture.
+The React frontend additionally hides UI elements that a user's role does not permit, reducing confusion and accidental navigation to restricted areas. This is a usability measure only — the backend authorization is always the authoritative enforcement point.
 
-Thus, they are an important contribution to achieving the inner qualities of the system.
+---
 
-This is the place in the template for a cohesive specification of such concepts.
+## 8.2 Input Validation and Error Handling
 
-Many of these concepts relate to or influence several building blocks.
+Input validation and consistent error handling are applied uniformly across all modules to ensure data integrity and provide predictable behavior for the frontend.
 
-## Form
+**Validation** is performed in two places:
 
-The form can be varied:
+- In the React frontend, forms validate user input before submission to give immediate feedback and reduce unnecessary network requests.
+- In the Node.js backend, all incoming data is validated independently of the frontend. Frontend validation is never trusted as the sole check. Invalid requests return HTTP 400 with a structured error response.
 
-- concept papers with any kind of structure
-- example implementations, especially for technical concepts
-- cross-cutting model excerpts or scenarios using notations of the architecture views
+**Error responses** follow a consistent structure across all API endpoints:
 
-## Structure
+```json
+{
+  "status": 400,
+  "error": "Validation failed",
+  "details": ["Name must not be empty", "Student ID must be a positive integer"]
+}
+```
 
-Pick **only** the most-needed topics for the system and assign each a level-2 heading in this section, for example 8.1, 8.2, and so on.
+Unhandled exceptions are caught by a global exception handler in the Node.js middleware pipeline. This ensures that internal errors never expose stack traces or system details to the client. All unhandled exceptions are logged (see section 8.3) and return HTTP 500 with a generic error message.
 
-Do **not** attempt to cover all topics of the diagram mentioned above.
+---
 
-## Further Information
+## 8.3 Logging and Monitoring
 
-Some topics within systems often concern multiple building blocks, hardware elements, or development processes.
+Logging is applied consistently across all backend components. Every significant system event — incoming requests, authentication attempts, data modifications, integration calls to the FMS, and errors — is recorded in a structured log.
 
-It might be easier to communicate or document such **cross-cutting** topics at a central location instead of repeating them in the description of the concerned building blocks, hardware elements, or development processes.
+Log entries follow a consistent format including timestamp, log level, affected module, user identifier (where available), and a short description. Personally identifiable information such as names or contact details is not included in log output.
 
-Certain concepts might concern **all** elements of a system, while others might only be relevant for a few.
+The application is deployed on AWS, which provides built-in monitoring and alerting capabilities. CloudWatch is used to collect logs, track availability, and alert the operations team when error rates or response times exceed defined thresholds.
 
-In the diagram above, logging concerns all three components, whereas security is relevant only for two components.
+Log levels used throughout the system:
 
-See the arc42 documentation: [Concepts](https://docs.arc42.org/section-8/)
+| Level | Usage                                                                                         |
+|-------|-----------------------------------------------------------------------------------------------|
+| INFO  | Normal operations: logins, data reads, successful transactions                                |
+| WARN  | Recoverable issues: failed login attempts, slow queries, FMS API retries                      |
+| ERROR | Failures requiring attention: unhandled exceptions, FMS integration failures, database errors |
 
-## _<Concept 1>_
+---
 
-_<explanation>_
+## 8.4 Data Persistence and Consistency
 
-## _<Concept 2>_
+All persistent data is stored in a central PostgreSQL database. The following principles apply across all modules:
 
-_<explanation>_
+**Schema ownership**: Each module owns its own set of database tables. Modules do not directly query tables belonging to another module — data is accessed through the responsible module's service layer. This enforces loose coupling at the data level and reflects the modular architecture described in section 5.
 
-...
+**Transactions**: Operations that modify multiple related records — such as enrolling a student in a course, which affects both enrollment and billing records — are executed within a single database transaction. If any step fails, the entire operation is rolled back to prevent partial or inconsistent state.
 
-## _<Concept n>_
+**Data protection**: The database is accessible only from the Node.js backend within the cloud infrastructure. It is not exposed to the public internet. Access credentials are managed through environment variables and are not stored in source code.
 
-_<explanation>_
+---
+
+## 8.5 Scalability and Deployment
+
+The UMS is deployed on AWS to meet the requirement of supporting high numbers of concurrent users, particularly during peak periods such as course enrollment phases and examination periods.
+
+The deployment architecture supports horizontal scaling: multiple instances of the Node.js backend can run in parallel behind a load balancer. Because authentication is stateless (JWT, see section 8.1), no session synchronization between instances is required.
+
+The React frontend is served as a static build from a CDN, reducing load on the application server for asset delivery.
+
+The PostgreSQL database runs on a managed AWS RDS instance, which provides automated backups, point-in-time recovery, and failover support.
+
+Deployment is managed through AWS infrastructure, which also provides health checks, automatic restarts of failed instances, and usage-based scaling.

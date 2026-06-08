@@ -1,70 +1,45 @@
 # Context and Scope
 
-## Contents
-
-Context and scope, as the name suggests, delimit your system, meaning your scope, from all its communication partners, such as neighboring systems and users, meaning the context of your system. It thereby specifies the external interfaces.
-
-If necessary, differentiate the business context, meaning domain-specific inputs and outputs, from the technical context, meaning channels, protocols, and hardware.
-
-## Motivation
-
-The domain interfaces and technical interfaces to communication partners are among your system's most critical aspects. Make sure that you completely understand them.
-
-## Form
-
-Various options:
-
-- Context diagrams
-- Lists of communication partners and their interfaces
-
-## Further Information
-
-See the arc42 documentation: [Context and Scope](https://docs.arc42.org/section-3/)
-
 ## Business Context
 
-### Contents
+The University Management System receives and sends data from and to the following communication partners:
 
-Specification of **all** communication partners, such as users and IT systems, with explanations of domain-specific inputs and outputs or interfaces.
+**University Management System**
 
-Optionally, you can add domain-specific formats or communication protocols.
+| Communication Partner             | Input (received by UMS)                                             | Output (sent by UMS)                                                   |
+|-----------------------------------|---------------------------------------------------------------------|------------------------------------------------------------------------|
+| Students                          | Enrollment requests, attendance confirmations, payment submissions  | Course schedules, grades, transcripts, course materials, notifications |
+| Lecturers                         | Attendance records, grade submissions, uploaded course materials    | Class lists, attendance summaries, grading confirmations               |
+| Administrators                    | Scheduling inputs, user account management actions, report requests | Generated reports, scheduling confirmations, system alerts             |
+| Finance Staff                     | Billing configurations, payment verifications                       | Invoices, payment confirmations, financial reports                     |
+| Student Information System (SIS)  | Student master data, registration records                           | Updated enrollment status, course assignments                          |
+| Financial Management System (FMS) | Financial transaction records, payment status updates               | Billing records, payment requests                                      |
 
-### Motivation
+All human actors interact with the system through a browser-based interface. No specialized client software is required. The two external IT systems — the SIS and FMS — are existing university systems that the UMS integrates with through APIs.
 
-All stakeholders should understand which data are exchanged with the environment of the system.
+![Context Diagram](images/ums_context_diagram.svg)
 
-### Form
-
-All kinds of diagrams that show the system as a black box and specify the domain interfaces to communication partners.
-
-Alternatively or additionally, you can use a table.
-
-The title of the table is the name of your system. The three columns contain the name of the communication partner, the inputs, and the outputs.
-
-**<Diagram or Table>**
-
-**<optionally: Explanation of external domain interfaces>**
+*Figure 3.1: Business Context of the University Management System*
 
 ## Technical Context
 
-### Contents
+The UMS communicates with its environment through the following technical channels:
 
-Technical interfaces, such as channels and transmission media, link your system to its environment.
+| Channel                | Technology                           | Protocol     | Description                                                                                                                               |
+|------------------------|--------------------------------------|--------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| User interface         | React frontend, standard web browser | HTTPS        | All human actors access the system through a browser. No client installation is required.                                                 |
+| UMS ↔ SIS              | REST API                             | HTTPS        | The UMS exchanges student data with the existing Student Information System through a documented REST API.                                |
+| UMS ↔ FMS              | REST API                             | HTTPS        | The UMS exchanges financial and billing data with the existing Financial Management System through a documented REST API.                 |
+| UMS backend ↔ database | PostgreSQL driver                    | Internal TCP | The Node.js backend communicates with the PostgreSQL database within the cloud infrastructure. The database is not exposed externally.    |
+| Cloud infrastructure   | AWS or Azure                         | —            | The application is deployed and hosted on a cloud platform. All communication between components is secured within the cloud environment. |
 
-In addition, there should be a mapping of domain-specific input/output to the channels, meaning an explanation of which input/output uses which channel.
+### Mapping of Inputs/Outputs to Channels
 
-### Motivation
-
-Many stakeholders make architectural decisions based on the technical interfaces between the system and its context.
-
-Especially infrastructure or hardware designers decide these technical interfaces.
-
-### Form
-
-For example, a UML deployment diagram describing channels to neighboring systems, together with a mapping table showing the relationships between channels and input/output.
-
-**<Diagram or Table>**
-
-**<optionally: Explanation of technical interfaces>**
-
-**<Mapping Input/Output to Channels>**
+| Input / Output                                                     | Channel                                    | Protocol         | Notes                                                      |
+|--------------------------------------------------------------------|--------------------------------------------|------------------|------------------------------------------------------------|
+| All user interactions (students, lecturers, admins, finance staff) | Browser → React Frontend → Node.js Backend | HTTPS            | Encrypted in transit; accessible from any standard browser |
+| Grade submissions, attendance records, enrollment requests         | User browser → Backend API                 | HTTPS / REST     | Authenticated via role-based access control                |
+| Course materials, schedules, notifications                         | Backend → User browser                     | HTTPS / REST     | Served through the React frontend                          |
+| Student master data (read/write)                                   | Backend ↔ Student Information System       | HTTPS / REST API | Synchronized through a documented external API             |
+| Billing and payment data (read/write)                              | Backend ↔ Financial Management System      | HTTPS / REST API | Synchronized through a documented external API             |
+| Persistent application data (all modules)                          | Backend ↔ PostgreSQL                       | Internal TCP     | Database is not exposed outside the cloud environment      |
