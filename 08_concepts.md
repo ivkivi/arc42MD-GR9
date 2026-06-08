@@ -64,13 +64,13 @@ Log levels used throughout the system:
 
 ## 8.4 Data Persistence and Consistency
 
-All persistent data is stored in a central PostgreSQL database. The following principles apply across all modules:
+All persistent application data is stored in a centralized MongoDB database. The following principles apply across all modules:
 
-**Schema ownership**: Each module owns its own set of database tables. Modules do not directly query tables belonging to another module — data is accessed through the responsible module's service layer. This enforces loose coupling at the data level and reflects the modular architecture described in section 5.
+**Schema ownership**: Each functional module manages its own MongoDB collections. Modules do not directly access collections owned by other modules. Instead, data is exchanged through the responsible service layer, preserving loose coupling between business domains.
 
-**Transactions**: Operations that modify multiple related records — such as enrolling a student in a course, which affects both enrollment and billing records — are executed within a single database transaction. If any step fails, the entire operation is rolled back to prevent partial or inconsistent state.
+**Transactions**: Operations that affect multiple business entities, such as course enrollment together with billing creation, are executed as a single logical operation. If one single step fails, the entire operation is rolled back or compensated to avoid inconsistent application state.
 
-**Data protection**: The database is accessible only from the Node.js backend within the cloud infrastructure. It is not exposed to the public internet. Access credentials are managed through environment variables and are not stored in source code.
+**Data protection**: The MongoDB database is accessible only from the Node.js backend within the cloud infrastructure. It is not directly exposed to external users. Database credentials are managed through secure environment variables and are never stored in the application source code.
 
 ---
 
@@ -82,6 +82,6 @@ The deployment architecture supports horizontal scaling: multiple instances of t
 
 The React frontend is served as a static build from a CDN, reducing load on the application server for asset delivery.
 
-The PostgreSQL database runs on a managed AWS RDS instance, which provides automated backups, point-in-time recovery, and failover support.
+The React frontend is delivered as static content, allowing efficient distribution and reducing the load on the application servers.
 
-Deployment is managed through AWS infrastructure, which also provides health checks, automatic restarts of failed instances, and usage-based scaling.
+MongoDB can be deployed as a managed cloud database service, providing automated backups, replication, and high availability. The cloud infrastructure additionally provides health checks, automatic recovery of failed instances, and resource scaling based on system demand.

@@ -30,7 +30,7 @@ The UMS communicates with its environment through the following technical channe
 | User interface         | React frontend, standard web browser | HTTPS        | All human actors access the system through a browser. No client installation is required.                                                 |
 | UMS ↔ SIS              | REST API                             | HTTPS        | The UMS exchanges student data with the existing Student Information System through a documented REST API.                                |
 | UMS ↔ FMS              | REST API                             | HTTPS        | The UMS exchanges financial and billing data with the existing Financial Management System through a documented REST API.                 |
-| UMS backend ↔ database | PostgreSQL driver                    | Internal TCP | The Node.js backend communicates with the PostgreSQL database within the cloud infrastructure. The database is not exposed externally.    |
+| UMS backend ↔ database | MongoDB driver                       | Internal TCP | The Node.js backend communicates with the MongoDB database within the cloud infrastructure. The database is not exposed externally.       |
 | Cloud infrastructure   | AWS or Azure                         | —            | The application is deployed and hosted on a cloud platform. All communication between components is secured within the cloud environment. |
 
 ### Mapping of Inputs/Outputs to Channels
@@ -42,4 +42,4 @@ The UMS communicates with its environment through the following technical channe
 | Course materials, schedules, notifications                         | Backend → User browser                     | HTTPS / REST     | Served through the React frontend                          |
 | Student master data (read/write)                                   | Backend ↔ Student Information System       | HTTPS / REST API | Synchronized through a documented external API             |
 | Billing and payment data (read/write)                              | Backend ↔ Financial Management System      | HTTPS / REST API | Synchronized through a documented external API             |
-| Persistent application data (all modules)                          | Backend ↔ PostgreSQL                       | Internal TCP     | Database is not exposed outside the cloud environment      |
+| Persistent application data (all modules)                          | Backend ↔ MongoDB                          | Internal TCP     | Database is not exposed outside the cloud environment      |

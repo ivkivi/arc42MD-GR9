@@ -51,22 +51,22 @@ The Student Management module follows a layered architecture, separating HTTP ha
 
 #### Contained building blocks
 
-| Building Block    | Responsibility                                                                                                        |
-|-------------------|-----------------------------------------------------------------------------------------------------------------------|
-| StudentController | Receives and validates incoming HTTP requests from the Student API. Delegates processing to the StudentService.       |
-| StudentService    | Contains all business logic for student operations, including validation rules and coordination between components.   |
-| StudentRepository | Handles all database interactions. Translates between domain objects and SQL queries against the PostgreSQL database. |
-| Student           | Domain model representing a student, including their id, name, and associated major.                                  |
-| Major             | Domain model representing an academic major with abbreviation, name, and description.                                 |
+| Building Block    | Responsibility                                                                                                      |
+|-------------------|---------------------------------------------------------------------------------------------------------------------|
+| StudentController | Receives and validates incoming HTTP requests from the Student API. Delegates processing to the StudentService.     |
+| StudentService    | Contains all business logic for student operations, including validation rules and coordination between components. |
+| StudentRepository | Handles all database interactions. Translates between domain objects and queries against the MongoDB database.      |
+| Student           | Domain model representing a student, including their id, name, and associated major.                                |
+| Major             | Domain model representing an academic major with abbreviation, name, and description.                               |
 
 #### Important interfaces
 
-| Interface                          | Description                                                                               |
-|------------------------------------|-------------------------------------------------------------------------------------------|
-| Student API → StudentController    | External REST API calls from the frontend or other modules enter through the controller.  |
-| StudentController → StudentService | The controller delegates all business operations to the service layer.                    |
-| StudentService → StudentRepository | The service requests data reads and writes through the repository.                        |
-| StudentRepository → PostgreSQL     | The repository communicates with the PostgreSQL database using parameterized SQL queries. |
+| Interface                          | Description                                                                              |
+|------------------------------------|------------------------------------------------------------------------------------------|
+| Student API → StudentController    | External REST API calls from the frontend or other modules enter through the controller. |
+| StudentController → StudentService | The controller delegates all business operations to the service layer.                   |
+| StudentService → StudentRepository | The service requests data reads and writes through the repository.                       |
+| StudentRepository → MongoDB        | The repository communicates with the MongoDB database.                                   |
 
 ---
 
