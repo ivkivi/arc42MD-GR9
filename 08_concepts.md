@@ -66,9 +66,9 @@ Log levels used throughout the system:
 
 All persistent application data is stored in a centralized MongoDB database. The following principles apply across all modules:
 
-**Schema ownership**: Each functional module manages its own MongoDB collections. Modules do not directly access collections owned by other modules. Instead, data is exchanged through the responsible service layer, preserving loose coupling between business domains.
+**Collection ownership**: Each functional module manages its own MongoDB collections. Modules do not directly access collections owned by other modules. Instead, data is exchanged through the responsible service layer, preserving loose coupling between business domains.
 
-**Transactions**: Operations that affect multiple business entities, such as course enrollment together with billing creation, are executed as a single logical operation. If one single step fails, the entire operation is rolled back or compensated to avoid inconsistent application state.
+**Data consistency**: Operations that affect multiple business entities, such as course enrollment together with billing creation, are executed as a single logical operation. If one single step fails, the entire operation is rolled back or compensated to avoid inconsistent application state.
 
 **Data protection**: The MongoDB database is accessible only from the Node.js backend within the cloud infrastructure. It is not directly exposed to external users. Database credentials are managed through secure environment variables and are never stored in the application source code.
 
