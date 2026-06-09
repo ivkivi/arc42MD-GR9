@@ -2,9 +2,9 @@
 
 The University Management System (UMS) will be implemented as a centralized web-based platform that combines academic, administrative, and financial processes within a single application.
 
-The architecture follows a modular monolith approach. This allows the system to remain easy to develop, deploy, and maintain while still separating the major business domains such as student management, course management, attendance tracking, grading, billing, and reporting.
+The architecture follows a modular monolith approach. This allows the system to remain easy to develop, deploy, and maintain while still separating the major business domains such as student management, course management, attendance tracking, grading, billing, and reporting. The resulting module structure is documented in the [Building Block View](05_building_block_view.md), and the decision is recorded in the [Architecture Decisions](09_architecture_decisions.md).
 
-The following strategies are used to achieve the project's quality goals:
+The following strategies are used to achieve the project's [quality goals](01_introduction_and_goals.md#quality-goals):
 
 ## Usability
 
@@ -33,3 +33,7 @@ The following strategies are used to achieve the project's quality goals:
 * Design the system so that future modules and university processes can be added with minimal impact on existing functionality.
 
 Overall, the chosen solution strategy supports the project goals of reducing manual work, minimizing human errors, improving communication between stakeholders, and providing a reliable platform for university administration.
+
+---
+
+[← Previous: Context and Scope](03_context_and_scope.md) | [Overview](README.md) | [Next: Building Block View →](05_building_block_view.md)

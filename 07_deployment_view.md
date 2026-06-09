@@ -19,6 +19,8 @@ Persistent data is stored in a MongoDB database. Existing university systems suc
 
 A Message Queue is used for asynchronous grade notifications. It stores notification messages until Grades Management can process them successfully.
 
+The deployed elements implement the modules from the [Building Block View](05_building_block_view.md). The queue-based notification and FMS recovery flows are explained in the [Runtime View](06_runtime_view.md).
+
 This deployment structure supports centralized data management, simple maintenance, and easy access for all user groups.
 
 ### Quality and/or Performance Features
@@ -30,6 +32,8 @@ This deployment structure supports centralized data management, simple maintenan
 * API-based integration enables reliable communication with external university systems.
 
 ### Mapping of Building Blocks to Infrastructure
+
+This table maps the logical elements from [Section 5](05_building_block_view.md) to their physical runtime infrastructure.
 
 | Building Block                   | Infrastructure Element      |
 | -------------------------------- | --------------------------- |
@@ -80,3 +84,7 @@ Stored information includes:
 * reporting data
 
 The database is only accessed through the backend services and is not directly exposed to users.
+
+---
+
+[← Previous: Runtime View](06_runtime_view.md) | [Overview](README.md) | [Next: Cross-cutting Concepts →](08_concepts.md)

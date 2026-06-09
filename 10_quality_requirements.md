@@ -1,6 +1,6 @@
 # Quality Requirements
 
-This section makes the quality goals from Section 1 more concrete.
+This section makes the quality goals from [Section 1](01_introduction_and_goals.md#quality-goals) more concrete.
 
 The three prioritized quality goals of the University Management System are:
 
@@ -26,7 +26,7 @@ Performance and maintainability are included in the quality tree as lower-priori
 
 ## 10.2 Quality Scenarios
 
-The following scenarios are based on the quality goals from Section 1 and on the architectural behavior already described in Sections 6 and 8.
+The following scenarios are based on the [quality goals from Section 1](01_introduction_and_goals.md#quality-goals) and on the architectural behavior described in the [Runtime View](06_runtime_view.md) and [Cross-cutting Concepts](08_concepts.md).
 
 ### QS-1: Course Enrollment
 
@@ -79,3 +79,7 @@ The following scenarios are based on the quality goals from Section 1 and on the
 | Artifact | Billing & payments, Payments Collection, FMS |
 | Response | The payment remains `PENDING`. The UMS does not send the payment again. Billing & Payments later requests the status of the existing payment using its request ID. |
 | Response Measure | An unconfirmed payment is not displayed as successful. A lost response does not create a second payment. The status remains `PENDING` until the FMS returns `CONFIRMED` or `FAILED`. |
+
+---
+
+[← Previous: Architecture Decisions](09_architecture_decisions.md) | [Overview](README.md) | [Next: Risks and Technical Debts →](11_technical_risks.md)

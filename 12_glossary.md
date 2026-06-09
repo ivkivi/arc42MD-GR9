@@ -38,3 +38,7 @@ This glossary defines the most important domain-specific and technical terms use
 | CloudWatch | An AWS service used to collect logs, monitor the application, and trigger alerts. |
 | CDN | Content Delivery Network. Infrastructure used to distribute the static React frontend efficiently. |
 | Idempotent Request | A request that can be repeated using the same identifier without creating the same operation more than once. |
+
+---
+
+[← Previous: Risks and Technical Debts](11_technical_risks.md) | [Overview](README.md)

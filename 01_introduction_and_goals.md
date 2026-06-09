@@ -39,6 +39,8 @@ The requirements summarized in this section are based on the Business Requiremen
 | 2 | Security | The system handles sensitive information such as student data, grades, and attendance records. This data must be protected and only be accessible to authorized users. |
 | 3 | Reliability | The system should work correctly and be available during important processes such as course enrollment, attendance tracking, and grade submission. |
 
+These goals are made concrete through measurable scenarios in [Section 10: Quality Requirements](10_quality_requirements.md).
+
 ## Stakeholders
 
 | Role/Name | Contact | Expectations |
@@ -49,3 +51,7 @@ The requirements summarized in this section are based on the Business Requiremen
 | Emily Chen, Student Representative | Students | Expects a user-friendly system for enrollment, course materials, grades, and notifications. |
 | Sarah Johnson, Financial Officer | Finance Department | Needs correct and reliable handling of billing and financial data. |
 | Project Team | Development Team | Needs clear requirements, understandable documentation, and a realistic project scope. |
+
+---
+
+[Overview](README.md) | [Next: Architecture Constraints →](02_architecture_constraints.md)

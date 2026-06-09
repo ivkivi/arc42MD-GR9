@@ -5,11 +5,11 @@ This runtime view documents two failure scenarios that are important for the arc
 1. a grade notification cannot be delivered immediately;
 2. the result of a payment request is lost during communication with the external FMS.
 
-The scenarios use building blocks from the Building Block View. The Message Queue is a technical communication mechanism used for delayed notifications.
+The scenarios use building blocks from the [Building Block View](05_building_block_view.md). The Message Queue is a technical communication mechanism used for delayed notifications.
 
 ## Runtime Participants
 
-| Runtime Participant | Mapping to Section 5 | Responsibility |
+| Runtime Participant | Mapping to [Section 5](05_building_block_view.md) | Responsibility |
 |---|---|---|
 | Authentication | Authentication | Verifies the identity, role, and permissions of the user |
 | Grades Management | Grades management | Validates and stores grades, schedules notifications, and processes retries |
@@ -20,7 +20,7 @@ The scenarios use building blocks from the Building Block View. The Message Queu
 | Payments Collection | Collection in the shared MongoDB database | Stores payment records, request IDs, and status managed by Billing & Payments |
 | FMS | External system connected through the Billing & Payments interface | Processes payments and returns their status |
 
-The UMS uses one shared MongoDB database with separate collections for the functional modules. The collections follow the data ownership principle from Section 8.4: grade data is managed by Grades Management and payment data by Billing & Payments. Other modules do not modify these collections directly.
+The UMS uses one shared MongoDB database with separate collections for the functional modules. The collections follow the data ownership principle from [Section 8.4](08_concepts.md#84-data-persistence-and-consistency): grade data is managed by Grades Management and payment data by Billing & Payments. Other modules do not modify these collections directly.
 
 ## 6.1 Grade Notification Cannot Be Delivered
 
@@ -109,3 +109,7 @@ During a network failure, the UMS cannot provide both an immediate final respons
 |---|---|---|---|
 | Grade notification | Grades are stored, but notification delivery fails | Grades management | Message Queue retains the notification for a later retry |
 | Payment processing | The FMS response is lost and the payment result is unknown | Billing & payments | Store `PENDING` and retrieve the existing payment status later |
+
+---
+
+[← Previous: Building Block View](05_building_block_view.md) | [Overview](README.md) | [Next: Deployment View →](07_deployment_view.md)

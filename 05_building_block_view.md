@@ -6,6 +6,8 @@
 
 The University Management System is decomposed into eight main functional building blocks. Each building block is responsible for a clearly defined area. All functional modules use the Authentication building block for access control. Technical and external supporting elements, such as the Message Queue and Email Service, are connected through the interfaces described below.
 
+The interaction of these elements during grade publication and payment processing is documented in the [Runtime View](06_runtime_view.md).
+
 ![Level 1 Building Block View](images/ums_level1_building_blocks.svg)
 
 *Figure 5.1: Level 1 Building Block View of the University Management System*
@@ -38,6 +40,8 @@ The University Management System is decomposed into eight main functional buildi
 | Finance Staff → Billing & Payments    | Finance staff manage invoices and verify payment transactions.                              |
 | Student Management ↔ SIS              | Student records are synchronized with the external Student Information System via REST API. |
 | Billing & Payments ↔ FMS              | Financial data is synchronized with the external Financial Management System via REST API.  |
+
+SIS, FMS, and Email Service are defined as external systems in the [Context and Scope](03_context_and_scope.md).
 
 ---
 
@@ -87,3 +91,7 @@ The internal structure of the Student Management module's three layers is docume
 | `ChangeStudentInformation(studentId, name, major)` | Updates the name and major of an existing student record. Returns a boolean indicating success. |
 | `GetStudentInformation(personId)`                  | Retrieves the full Student object for a given person identifier.                                |
 | `DeleteStudent(studentId)`                         | Removes a student record from the system. Returns a boolean indicating success.                 |
+
+---
+
+[← Previous: Solution Strategy](04_solution_strategy.md) | [Overview](README.md) | [Next: Runtime View →](06_runtime_view.md)

@@ -18,6 +18,8 @@ The University Management System receives and sends data from and to the followi
 
 All human actors interact with the system through a browser-based interface. No specialized client software is required. The SIS, FMS, and Email Service are external systems that the UMS integrates with through dedicated interfaces.
 
+The internal modules responsible for these interactions are described in the [Building Block View](05_building_block_view.md). Relevant failure behavior for the FMS and Email Service is shown in the [Runtime View](06_runtime_view.md).
+
 ![Context Diagram](images/ums_context_diagram.svg)
 
 *Figure 3.1: Business Context of the University Management System*
@@ -46,3 +48,9 @@ The UMS communicates with its environment through the following technical channe
 | Student master data (read/write)                                   | Backend ↔ Student Information System       | HTTPS / REST API | Synchronized through a documented external API             |
 | Billing and payment data (read/write)                              | Backend ↔ Financial Management System      | HTTPS / REST API | Synchronized through a documented external API             |
 | Persistent application data (all modules)                          | Backend ↔ MongoDB                          | Internal TCP     | Database is not exposed outside the cloud environment      |
+
+The physical placement of these elements is documented in the [Deployment View](07_deployment_view.md).
+
+---
+
+[← Previous: Architecture Constraints](02_architecture_constraints.md) | [Overview](README.md) | [Next: Solution Strategy →](04_solution_strategy.md)

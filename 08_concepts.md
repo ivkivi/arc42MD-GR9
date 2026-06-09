@@ -68,7 +68,11 @@ All persistent application data is stored in a centralized MongoDB database. The
 
 **Collection ownership**: Each functional module manages its own MongoDB collections. Modules do not directly access collections owned by other modules. Instead, data is exchanged through the responsible service layer, preserving loose coupling between business domains.
 
-**Data consistency**: Operations that affect multiple business entities, such as course enrollment together with billing creation, are executed as a single logical operation. If one single step fails, the entire operation is rolled back or compensated to avoid inconsistent application state.
+**Data consistency within the UMS**: Changes that affect multiple collections inside MongoDB are executed in a transaction where necessary. If one database operation fails, the transaction is rolled back so that no partial update remains.
+
+**External operations**: Calls to external systems such as the FMS cannot be part of the same MongoDB transaction. The UMS therefore stores a controlled intermediate state such as `PENDING` before sending the request. If the FMS response is lost, the internal data is not rolled back and the payment is not submitted again. Instead, Billing & Payments later requests the status of the existing operation using its request ID. Course enrollment that depends on payment confirmation is completed only after the payment status is `CONFIRMED`.
+
+The application of these principles to grade publication and external payment processing is shown in the [Runtime View](06_runtime_view.md).
 
 **Data protection**: The MongoDB database is accessible only from the Node.js backend within the cloud infrastructure. It is not directly exposed to external users. Database credentials are managed through secure environment variables and are never stored in the application source code.
 
@@ -78,10 +82,14 @@ All persistent application data is stored in a centralized MongoDB database. The
 
 The UMS is deployed on AWS to meet the requirement of supporting high numbers of concurrent users, particularly during peak periods such as course enrollment phases and examination periods.
 
-The deployment architecture supports horizontal scaling: multiple instances of the Node.js backend can run in parallel behind a load balancer. Because authentication is stateless (JWT, see section 8.1), no session synchronization between instances is required.
+The corresponding infrastructure is documented in the [Deployment View](07_deployment_view.md).
 
-The React frontend is served as a static build from a CDN, reducing load on the application server for asset delivery.
+The deployment architecture supports horizontal scaling: multiple instances of the Node.js backend can run in parallel behind a load balancer. Because authentication is stateless (JWT, see section 8.1), no session synchronization between instances is required.
 
 The React frontend is delivered as static content, allowing efficient distribution and reducing the load on the application servers.
 
 MongoDB can be deployed as a managed cloud database service, providing automated backups, replication, and high availability. The cloud infrastructure additionally provides health checks, automatic recovery of failed instances, and resource scaling based on system demand.
+
+---
+
+[← Previous: Deployment View](07_deployment_view.md) | [Overview](README.md) | [Next: Architecture Decisions →](09_architecture_decisions.md)
