@@ -4,7 +4,7 @@
 
 ### White-box: University Management System
 
-The University Management System is decomposed into eight main building blocks. Each building block is responsible for a clearly defined area. All functional modules use the Authentication building block for access control.
+The University Management System is decomposed into eight main functional building blocks. Each building block is responsible for a clearly defined area. All functional modules use the Authentication building block for access control. Technical and external supporting elements, such as the Message Queue and Email Service, are connected through the interfaces described below.
 
 ![Level 1 Building Block View](images/ums_level1_building_blocks.svg)
 
@@ -31,7 +31,8 @@ The University Management System is decomposed into eight main building blocks. 
 | Student → Course Management           | Students browse the course catalog and submit enrollment requests.                          |
 | Lecturer → Attendance Management      | Lecturers record and review attendance for their courses.                                   |
 | Lecturer → Grades Management          | Lecturers submit and manage grades for their students.                                      |
-| Grades Management → Message Queue | Schedules student notifications after grades have been stored successfully. |
+| Grades Management → Message Queue  | Schedules student notifications after grades have been stored successfully.                  |
+| Grades Management → Email Service  | Sends queued grade notifications to students through the external email service.             |
 | Administrator → Faculty Management    | Administrators manage lecturer accounts and course assignments.                             |
 | Administrator → Reporting & Analytics | Administrators request and export system-wide reports.                                      |
 | Finance Staff → Billing & Payments    | Finance staff manage invoices and verify payment transactions.                              |
