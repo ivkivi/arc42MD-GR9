@@ -44,6 +44,7 @@ This deployment structure supports centralized data management, simple maintenan
 | Academic and Administrative Data | MongoDB Database            |
 | Student Information Integration  | External SIS                |
 | Financial Data Integration       | Financial Management System |
+| Email Notification Delivery      | External Email Service      |
 | Grade Notification Messages      | Cloud Message Queue         | 
 
 ## Infrastructure Level 2
