@@ -16,7 +16,7 @@ The University Management System receives and sends data from and to the followi
 | Financial Management System (FMS) | Financial transaction records, payment status updates               | Billing records, payment requests                                      |
 | Email Service | Delivery status or errors | Student notifications |
 
-All human actors interact with the system through a browser-based interface. No specialized client software is required. The two external IT systems — the SIS and FMS — are existing university systems that the UMS integrates with through APIs.
+All human actors interact with the system through a browser-based interface. No specialized client software is required. The SIS, FMS, and Email Service are external systems that the UMS integrates with through dedicated interfaces.
 
 ![Context Diagram](images/ums_context_diagram.svg)
 
@@ -33,7 +33,7 @@ The UMS communicates with its environment through the following technical channe
 | UMS ↔ FMS              | REST API                             | HTTPS        | The UMS exchanges financial and billing data with the existing Financial Management System through a documented REST API.                 |
 | UMS ↔ Email Service    | Email API or SMTP                    | HTTPS / SMTP | The UMS sends notifications to students through an external email service.                                                                |
 | UMS backend ↔ database | MongoDB driver                       | Internal TCP | The Node.js backend communicates with the MongoDB database within the cloud infrastructure. The database is not exposed externally.       |
-| Cloud infrastructure   | AWS or Azure                         | —            | The application is deployed and hosted on a cloud platform. All communication between components is secured within the cloud environment. |
+| Cloud infrastructure   | AWS                                  | —            | The application is deployed and hosted on AWS. All communication between components is secured within the cloud environment.              |
 
 ### Mapping of Inputs/Outputs to Channels
 
@@ -42,6 +42,7 @@ The UMS communicates with its environment through the following technical channe
 | All user interactions (students, lecturers, admins, finance staff) | Browser → React Frontend → Node.js Backend | HTTPS            | Encrypted in transit; accessible from any standard browser |
 | Grade submissions, attendance records, enrollment requests         | User browser → Backend API                 | HTTPS / REST     | Authenticated via role-based access control                |
 | Course materials, schedules, notifications                         | Backend → User browser                     | HTTPS / REST     | Served through the React frontend                          |
+| Email notifications                                                | Backend → Email Service                    | HTTPS / SMTP     | Sent asynchronously after the related operation succeeds  |
 | Student master data (read/write)                                   | Backend ↔ Student Information System       | HTTPS / REST API | Synchronized through a documented external API             |
 | Billing and payment data (read/write)                              | Backend ↔ Financial Management System      | HTTPS / REST API | Synchronized through a documented external API             |
 | Persistent application data (all modules)                          | Backend ↔ MongoDB                          | Internal TCP     | Database is not exposed outside the cloud environment      |

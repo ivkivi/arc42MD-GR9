@@ -33,7 +33,7 @@ This glossary defines the most important domain-specific and technical terms use
 | CAP Theorem | A principle for distributed systems stating that during a network partition, a system cannot guarantee both full consistency and full availability. |
 | Network Partition | A communication failure in which the UMS temporarily cannot reach an external system such as the FMS. |
 | Data Ownership | The rule that each functional module manages its own data collections and other modules do not modify them directly. |
-| Cloud Deployment | Operation of the UMS on cloud infrastructure such as AWS or Azure. |
+| Cloud Deployment | Operation of the UMS on AWS cloud infrastructure. |
 | AWS | Amazon Web Services. The cloud platform used for hosting and operating the UMS. |
 | CloudWatch | An AWS service used to collect logs, monitor the application, and trigger alerts. |
 | CDN | Content Delivery Network. Infrastructure used to distribute the static React frontend efficiently. |

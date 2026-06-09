@@ -7,7 +7,7 @@
 | Frontend technology: React  | The frontend must be implemented using React.                                                |
 | Backend technology: Node.js | Backend services must be implemented using Node.js.                                          |
 | Database: MongoDB           | MongoDB must be used as the primary data store.                                              |
-| Cloud hosting               | The application must be deployable on AWS or Azure.                                          |
+| Cloud hosting               | The application must be deployable on AWS.                                                   |
 | Existing system integration | Integration with the Student Information System and Financial Management System is required. |
 | Data protection compliance  | The system must comply with applicable privacy and data protection regulations.              |
 
@@ -21,7 +21,7 @@
 | Centralized platform | Academic, administrative, and financial processes shall be managed in one system. |
 
 
-## Developement Constraints
+## Development Constraints
 
 | Constraint                | Explanation                                                                         |
 | ------------------------- | ----------------------------------------------------------------------------------- |

@@ -4,7 +4,7 @@
 
 ### White-box: University Management System
 
-The University Management System is decomposed into seven functional modules. Each module is responsible for a clearly defined business domain. All modules share the Authentication module for access control.
+The University Management System is decomposed into eight main building blocks. Each building block is responsible for a clearly defined area. All functional modules use the Authentication building block for access control.
 
 ![Level 1 Building Block View](images/ums_level1_building_blocks.svg)
 

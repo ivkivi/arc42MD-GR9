@@ -2,7 +2,7 @@
 
 arc42 is the template for documentation of software and system architecture.
 
-Template Version `{revnumber}`. `{revremark}`, `{revdate}`
+This documentation uses the arc42 structure and was adapted for the University Management System architecture project.
 
 Created, maintained and © by Dr. Peter Hruschka, Dr. Gernot Starke and contributors.
 

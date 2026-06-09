@@ -21,7 +21,7 @@ The following strategies are used to achieve the project's quality goals:
 
 ## Reliability
 
-* Deploy the application on a scalable cloud platform such as AWS or Azure.
+* Deploy the application on AWS as a scalable cloud platform.
 * Use a centralized database to ensure data consistency and integrity.
 * Provide controlled access to business functions through clearly defined application services.
 * Integrate existing university systems through stable and documented APIs.
