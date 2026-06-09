@@ -14,7 +14,7 @@ Performance and maintainability are included in the quality tree as lower-priori
 
 ### Quality Tree
 
-![Quality Reww](images/qualitytree.png)
+![Quality Tree](images/qualitytree.png)
 
 | Priority | Quality Requirement | Description |
 |---|---|---|
@@ -63,7 +63,7 @@ The following scenarios are based on the quality goals from Section 1 and on the
 | Source | Lecturer or technical failure |
 | Stimulus | The lecturer publishes grades, but the grade data cannot be stored or the student notification cannot be delivered. |
 | Environment | Grade publication during normal system operation. |
-| Artifact | Grades management, Grades Collection, Message Queue, Notification Worker |
+| Artifact | Grades management, Grades Collection, Message Queue |
 | Response | If grade storage fails, the grades are not published and no notification is created. If storage succeeds but notification delivery fails, the grades remain stored and the notification stays in the Message Queue for a later retry. |
 | Response Measure | A failed storage operation leaves no partial grade update. A notification is scheduled only after successful grade storage. If delivery fails, the message remains in the queue and is available for the next retry. |
 
@@ -76,6 +76,6 @@ The following scenarios are based on the quality goals from Section 1 and on the
 | Source | Network failure between the UMS and the FMS |
 | Stimulus | The network connection fails after Billing & Payments sends the payment request but before the FMS response reaches the UMS. |
 | Environment | Payment processing during normal system operation. |
-| Artifact | Billing & payments, Payments Collection, FMS, Payment Verification Job |
-| Response | The payment remains `PENDING`. The UMS does not send the payment again. The Payment Verification Job later requests the status of the existing payment using its request ID. |
+| Artifact | Billing & payments, Payments Collection, FMS |
+| Response | The payment remains `PENDING`. The UMS does not send the payment again. Billing & Payments later requests the status of the existing payment using its request ID. |
 | Response Measure | An unconfirmed payment is not displayed as successful. A lost response does not create a second payment. The status remains `PENDING` until the FMS returns `CONFIRMED` or `FAILED`. |

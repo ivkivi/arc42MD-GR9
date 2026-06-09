@@ -5,9 +5,9 @@ This runtime view documents two failure scenarios that are important for the arc
 1. a grade notification cannot be delivered immediately;
 2. the result of a payment request is lost during communication with the external FMS.
 
-The scenarios use building blocks from the Building Block View. The Message Queue and the background workers are technical runtime elements that support these building blocks.
+The scenarios use building blocks from the Building Block View. The Message Queue is a technical communication mechanism used for delayed notifications.
 
-## Mapping to Building Blocks
+## Runtime Participants
 
 | Runtime Participant | Mapping to Section 5 | Responsibility |
 |---|---|---|
@@ -39,7 +39,7 @@ The email connection may be unavailable after the grades have already been store
 3. If storage fails, no notification is created and the lecturer receives an error.
 4. After successful storage, `Grades management` adds a notification to the Message Queue.
 5. The lecturer is informed that the grades were published and the notification was scheduled.
-6. If delivery fails, the Notification Worker retries the queued message later.
+6. If delivery fails, the message remains in the queue and Grades Management processes it again later.
 
 ### Architectural Decision
 
