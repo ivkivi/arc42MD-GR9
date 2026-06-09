@@ -9,19 +9,17 @@ The scenarios use building blocks from the Building Block View. The Message Queu
 
 ## Mapping to Building Blocks
 
-| Runtime Participant | Type | Responsibility |
+| Runtime Participant | Mapping to Section 5 | Responsibility |
 |---|---|---|
-| Authentication | Building block | Verifies user identity and permissions |
-| Grades Management | Building block | Validates and stores grades |
-| Grades Collection | Data storage | Stores grade records |
-| Notification Worker | Runtime component | Processes grade notifications |
-| Message Queue | Infrastructure | Retains notification messages |
-| Billing & Payments | Building block | Manages payment requests and status |
-| Payments Collection | Data storage | Stores payment records and status |
-| Payment Verification Job | Runtime component | Checks unresolved payments |
-| FMS | External system | Processes payments and returns their status |
+| Authentication | Authentication | Verifies the identity, role, and permissions of the user |
+| Grades Management | Grades management | Validates and stores grades, schedules notifications, and processes retries |
+| Grades Collection | Collection in the shared MongoDB database | Stores grade records managed by Grades Management |
+| Message Queue | Technical communication mechanism | Keeps notification messages until they can be processed |
+| Billing & Payments | Billing & payments | Creates payment requests, manages their status, and checks unresolved payments |
+| Payments Collection | Collection in the shared MongoDB database | Stores payment records, request IDs, and status managed by Billing & Payments |
+| FMS | External system connected through the Billing & Payments interface | Processes payments and returns their status |
 
-The MongoDB collections follow the data ownership principle from section 8.4. Grade data is handled by Grades Management and payment data by Billing & Payments.
+The UMS uses one shared MongoDB database with separate collections for the functional modules. The collections follow the data ownership principle from Section 8.4: grade data is managed by Grades Management and payment data by Billing & Payments. Other modules do not modify these collections directly.
 
 ## 6.1 Grade Notification Cannot Be Delivered
 
@@ -81,8 +79,8 @@ The FMS may process the payment, but the network connection can fail before its 
 4. After successful storage, the payment request is sent to the FMS.
 5. A normal FMS response changes the status to `CONFIRMED` or `FAILED`.
 6. If the response is lost, the payment remains `PENDING` and the student is informed that it is being verified.
-7. The Payment Verification Job later asks the FMS for the status of the existing request.
-8. The job stores `CONFIRMED` or `FAILED`. If the FMS is still unavailable, it keeps `PENDING` and tries again later.
+7. Billing & Payments later asks the FMS for the status of the existing request.
+8. Billing & Payments stores `CONFIRMED` or `FAILED`. If the FMS is still unavailable, it keeps `PENDING` and tries again later.
 9. The student can request and view the current payment status.
 
 ### Architectural Decision and CAP
