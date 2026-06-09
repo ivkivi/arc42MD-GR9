@@ -4,7 +4,7 @@
 
 ### Overview Diagram
 
-![Deployment Diagram](images/deployment_view.png)
+![Deployment Diagram](images/deployment_view1.png)
 
 *Figure 7.1: Deployment View of the University Management System*
 
