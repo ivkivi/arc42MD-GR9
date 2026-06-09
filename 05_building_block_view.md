@@ -1,160 +1,87 @@
 # Building Block View
 
-## Content
+## Level 1 — Overall System
 
-The building block view shows the static decomposition of the system into building blocks, such as modules, components, subsystems, classes, interfaces, packages, libraries, frameworks, layers, partitions, tiers, functions, operations, and data structures, as well as their dependencies, relationships, and associations.
+### White-box: University Management System
 
-This view is mandatory for every architecture documentation.
+The University Management System is decomposed into seven functional modules. Each module is responsible for a clearly defined business domain. All modules share the Authentication module for access control.
 
-In analogy to a house, this is the **floor plan**.
+![Level 1 Building Block View](images/ums_level1_building_blocks.svg)
 
-## Motivation
+*Figure 5.1: Level 1 Building Block View of the University Management System*
 
-Maintain an overview of your source code by making its structure understandable through abstraction.
+#### Contained building blocks
 
-This allows you to communicate with your stakeholders on an abstract level without disclosing implementation details.
+| Building Block        | Responsibility                                                                           |
+|-----------------------|------------------------------------------------------------------------------------------|
+| Authentication        | Manages user login, session handling, and role-based access control for all user groups. |
+| Course management     | Manages the course catalog, curriculum, and student enrollment into courses.             |
+| Faculty management    | Manages lecturer profiles, teaching assignments, and department scheduling.              |
+| Attendance management | Tracks and reports student attendance per course session.                                |
+| Grades management     | Manages grade entry, GPA calculation, and transcript generation.                         |
+| Student management    | Manages student profiles, personal records, and academic history.                        |
+| Billing & payments    | Handles invoice generation, payment processing, and financial reporting for students.    |
+| Reporting & analytics | Aggregates data from other modules to generate administrative and analytical reports.    |
 
-## Form
+#### Important interfaces
 
-The building block view is a hierarchical collection of black boxes and white boxes and their descriptions.
+| Interface                             | Description                                                                                 |
+|---------------------------------------|---------------------------------------------------------------------------------------------|
+| Student → Student Management          | Students view and update their personal records and academic history.                       |
+| Student → Course Management           | Students browse the course catalog and submit enrollment requests.                          |
+| Lecturer → Attendance Management      | Lecturers record and review attendance for their courses.                                   |
+| Lecturer → Grades Management          | Lecturers submit and manage grades for their students.                                      |
+| Administrator → Faculty Management    | Administrators manage lecturer accounts and course assignments.                             |
+| Administrator → Reporting & Analytics | Administrators request and export system-wide reports.                                      |
+| Finance Staff → Billing & Payments    | Finance staff manage invoices and verify payment transactions.                              |
+| Student Management ↔ SIS              | Student records are synchronized with the external Student Information System via REST API. |
+| Billing & Payments ↔ FMS              | Financial data is synchronized with the external Financial Management System via REST API.  |
 
-![Hierarchy of building blocks](../images/05_building_blocks-EN.png)
+---
 
-**Level 1** is the white box description of the overall system together with black box descriptions of all contained building blocks.
+## Level 2 — Student Management
 
-**Level 2** zooms into some building blocks of level 1. Thus, it contains the white box description of selected building blocks of level 1, together with black box descriptions of their internal building blocks.
+### White-box: Student Management module
 
-**Level 3** zooms into selected building blocks of level 2, and so on.
+The Student Management module follows a layered architecture, separating HTTP handling, business logic, and data access into distinct components. This structure is consistent across all other modules in the system.
 
-## Further Information
+![Level 2 Building Block View](images/ums_level2_student_management.svg)
 
-See the arc42 documentation: [Building Block View](https://docs.arc42.org/section-5/)
+*Figure 5.2: Level 2 Building Block View — Student Management module*
 
-## Whitebox Overall System
+#### Contained building blocks
 
-Here you describe the decomposition of the overall system using the following white box template. It contains:
+| Building Block    | Responsibility                                                                                                      |
+|-------------------|---------------------------------------------------------------------------------------------------------------------|
+| StudentController | Receives and validates incoming HTTP requests from the Student API. Delegates processing to the StudentService.     |
+| StudentService    | Contains all business logic for student operations, including validation rules and coordination between components. |
+| StudentRepository | Handles all database interactions. Translates between domain objects and queries against the MongoDB database.      |
+| Student           | Domain model representing a student, including their id, name, and associated major.                                |
+| Major             | Domain model representing an academic major with abbreviation, name, and description.                               |
 
-- an overview diagram
-- a motivation for the decomposition
-- black box descriptions of the contained building blocks
+#### Important interfaces
 
-For the black box descriptions, you can either:
+| Interface                          | Description                                                                              |
+|------------------------------------|------------------------------------------------------------------------------------------|
+| Student API → StudentController    | External REST API calls from the frontend or other modules enter through the controller. |
+| StudentController → StudentService | The controller delegates all business operations to the service layer.                   |
+| StudentService → StudentRepository | The service requests data reads and writes through the repository.                       |
+| StudentRepository → MongoDB        | The repository communicates with the MongoDB database.                                   |
 
-- use one table for a short and pragmatic overview of all contained building blocks and their interfaces
-- use a list of black box descriptions of the building blocks according to the black box template
+---
 
-Depending on your tool, this list could be sub-chapters in text files, sub-pages in a Wiki, or nested elements in a modeling tool.
+## Level 3 — StudentController, StudentService, StudentRepository
 
-Optionally, you can describe important interfaces that are not explained in the black box templates of a building block but are very important for understanding the white box.
+The internal structure of the Student Management module's three layers is documented in the class diagram below. Each layer exposes the same set of operations, enforcing a clean separation of concerns from HTTP handling down to data persistence.
 
-Since there are many ways to specify interfaces, there is no specific template for them. In the worst case, you have to specify and describe syntax, semantics, protocols, error handling, restrictions, versions, qualities, necessary compatibilities, and more.
+![Level 3 Building Block View](images/ums_level3_student_classes.svg)
 
-In the best case, examples or simple signatures are sufficient.
+*Figure 5.3: Level 3 Class Diagram — Student Management layers*
 
-**<Overview Diagram>**
+#### Exposed operations
 
-### Motivation
-
-_<text explanation>_
-
-### Contained Building Blocks
-
-_<Description of contained building block black boxes>_
-
-### Important Interfaces
-
-_<Description of important interfaces>_
-
-## Black Boxes Level 1
-
-You can describe black boxes from level 1 in tabular form:
-
-| **Name** | **Responsibility** |
-|---|---|
-| _<black box 1>_ | _<Text>_ |
-| _<black box 2>_ | _<Text>_ |
-
-Alternatively, use a separate black box template for every important building block.
-
-### <Name black box 1>
-
-Here you describe `<black box 1>` according to the following black box template:
-
-- Purpose / Responsibility
-- Interfaces, when they are not extracted as separate paragraphs
-- Optional quality or performance characteristics, such as availability or runtime behavior
-- Optional directory or file location
-- Optional fulfilled requirements, if traceability to requirements is needed
-- Optional open issues, problems, or risks
-
-_<Purpose/Responsibility>_
-
-_<Interface(s)>_
-
-_<(Optional) Quality/Performance Characteristics>_
-
-_<(Optional) Directory/File Location>_
-
-_<(Optional) Fulfilled Requirements>_
-
-_<(Optional) Open Issues/Problems/Risks>_
-
-### <Name black box 2>
-
-_<black box template>_
-
-### <Name black box n>
-
-_<black box template>_
-
-### <Name interface 1>
-
-...
-
-### <Name interface m>
-
-## Level 2
-
-Here you can specify the inner structure of some building blocks from level 1 as white boxes.
-
-You have to decide which building blocks of your system are important enough to justify such a detailed description.
-
-Prefer relevance over completeness. Specify important, surprising, risky, complex, or volatile building blocks.
-
-Leave out normal, simple, boring, or standardized parts of your system.
-
-### White Box _<building block 1>_
-
-Describes the internal structure of _building block 1_.
-
-_<white box template>_
-
-### White Box _<building block 2>_
-
-_<white box template>_
-
-...
-
-### White Box _<building block m>_
-
-_<white box template>_
-
-## Level 3
-
-Here you can specify the inner structure of some building blocks from level 2 as white boxes.
-
-When you need more detailed levels of your architecture, copy this part of arc42 for additional levels.
-
-### White Box _<building block x.1>_
-
-Specifies the internal structure of _building block x.1_.
-
-_<white box template>_
-
-### White Box _<building block x.2>_
-
-_<white box template>_
-
-### White Box _<building block y.1>_
-
-_<white box template>_
+| Operation                                          | Description                                                                                     |
+|----------------------------------------------------|-------------------------------------------------------------------------------------------------|
+| `ChangeStudentInformation(studentId, name, major)` | Updates the name and major of an existing student record. Returns a boolean indicating success. |
+| `GetStudentInformation(personId)`                  | Retrieves the full Student object for a given person identifier.                                |
+| `DeleteStudent(studentId)`                         | Removes a student record from the system. Returns a boolean indicating success.                 |
