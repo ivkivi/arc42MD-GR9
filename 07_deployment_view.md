@@ -17,6 +17,8 @@ Users access the system through a standard web browser. The frontend is implemen
 
 Persistent data is stored in a MongoDB database. Existing university systems such as the Student Information System (SIS) and the Financial Management System are integrated through dedicated APIs.
 
+A Message Queue is used for asynchronous grade notifications. It stores notification messages until Grades Management can process them successfully.
+
 This deployment structure supports centralized data management, simple maintenance, and easy access for all user groups.
 
 ### Quality and/or Performance Features
@@ -42,6 +44,7 @@ This deployment structure supports centralized data management, simple maintenan
 | Academic and Administrative Data | MongoDB Database            |
 | Student Information Integration  | External SIS                |
 | Financial Data Integration       | Financial Management System |
+| Grade Notification Messages      | Cloud Message Queue         | 
 
 ## Infrastructure Level 2
 
@@ -58,6 +61,8 @@ Responsibilities:
 * billing workflows
 * reporting and analytics
 * communication with external systems
+* processing queued grade notifications
+* checking unresolved payment states with the FMS
 
 ### Database Server
 

@@ -31,6 +31,7 @@ The University Management System is decomposed into seven functional modules. Ea
 | Student → Course Management           | Students browse the course catalog and submit enrollment requests.                          |
 | Lecturer → Attendance Management      | Lecturers record and review attendance for their courses.                                   |
 | Lecturer → Grades Management          | Lecturers submit and manage grades for their students.                                      |
+| Grades Management → Message Queue | Schedules student notifications after grades have been stored successfully. |
 | Administrator → Faculty Management    | Administrators manage lecturer accounts and course assignments.                             |
 | Administrator → Reporting & Analytics | Administrators request and export system-wide reports.                                      |
 | Finance Staff → Billing & Payments    | Finance staff manage invoices and verify payment transactions.                              |

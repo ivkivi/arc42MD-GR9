@@ -14,6 +14,7 @@ The University Management System receives and sends data from and to the followi
 | Finance Staff                     | Billing configurations, payment verifications                       | Invoices, payment confirmations, financial reports                     |
 | Student Information System (SIS)  | Student master data, registration records                           | Updated enrollment status, course assignments                          |
 | Financial Management System (FMS) | Financial transaction records, payment status updates               | Billing records, payment requests                                      |
+| Email Service | Delivery status or errors | Student notifications |
 
 All human actors interact with the system through a browser-based interface. No specialized client software is required. The two external IT systems — the SIS and FMS — are existing university systems that the UMS integrates with through APIs.
 
@@ -29,7 +30,9 @@ The UMS communicates with its environment through the following technical channe
 |------------------------|--------------------------------------|--------------|-------------------------------------------------------------------------------------------------------------------------------------------|
 | User interface         | React frontend, standard web browser | HTTPS        | All human actors access the system through a browser. No client installation is required.                                                 |
 | UMS ↔ SIS              | REST API                             | HTTPS        | The UMS exchanges student data with the existing Student Information System through a documented REST API.                                |
-| UMS ↔ FMS              | REST API                             | HTTPS        | The UMS exchanges financial and billing data with the existing Financial Management System through a documented REST API.                 |
+| UMS ↔ FMS              | REST API                             |
+| UMS ↔ Email Service | Email API or SMTP | HTTPS / SMTP | Sends notifications to students. |
+ HTTPS        | The UMS exchanges financial and billing data with the existing Financial Management System through a documented REST API.                 |
 | UMS backend ↔ database | MongoDB driver                       | Internal TCP | The Node.js backend communicates with the MongoDB database within the cloud infrastructure. The database is not exposed externally.       |
 | Cloud infrastructure   | AWS or Azure                         | —            | The application is deployed and hosted on a cloud platform. All communication between components is secured within the cloud environment. |
 
