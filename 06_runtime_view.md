@@ -15,6 +15,7 @@ The scenarios use building blocks from the Building Block View. The Message Queu
 | Grades Management | Grades management | Validates and stores grades, schedules notifications, and processes retries |
 | Grades Collection | Collection in the shared MongoDB database | Stores grade records managed by Grades Management |
 | Message Queue | Technical communication mechanism | Keeps notification messages until they can be processed |
+| Email Service | External system connected to Grades Management | Delivers email notifications to students |
 | Billing & Payments | Billing & payments | Creates payment requests, manages their status, and checks unresolved payments |
 | Payments Collection | Collection in the shared MongoDB database | Stores payment records, request IDs, and status managed by Billing & Payments |
 | FMS | External system connected through the Billing & Payments interface | Processes payments and returns their status |
@@ -25,7 +26,7 @@ The UMS uses one shared MongoDB database with separate collections for the funct
 
 ### Initial Situation
 
-A lecturer publishes grades for a course. Grades Management stores the grades and informs the students that new grades are available.
+A lecturer publishes grades for a course. Grades Management stores the grades and schedules an email notification for the students.
 
 The email connection may be unavailable after the grades have already been stored. Repeating the complete grade submission would be wrong because the grade data is already correct.
 
@@ -39,11 +40,12 @@ The email connection may be unavailable after the grades have already been store
 3. If storage fails, no notification is created and the lecturer receives an error.
 4. After successful storage, `Grades management` adds a notification to the Message Queue.
 5. The lecturer is informed that the grades were published and the notification was scheduled.
-6. If delivery fails, the message remains in the queue and Grades Management processes it again later.
+6. Grades Management processes the queued message and sends the notification through the external Email Service.
+7. If the Email Service is unavailable, the message remains in the queue and Grades Management processes it again later.
 
 ### Architectural Decision
 
-Grade storage and notification delivery are separated. Grades Management is responsible for the grade data, while the Message Queue ensures that a temporary email failure does not lose the notification.
+Grade storage and notification delivery are separated. Grades Management is responsible for the grade data and sends notifications through the external Email Service. The Message Queue ensures that a temporary email failure does not lose the notification.
 
 The response to the lecturer means:
 

@@ -63,8 +63,8 @@ The following scenarios are based on the quality goals from Section 1 and on the
 | Source | Lecturer or technical failure |
 | Stimulus | The lecturer publishes grades, but the grade data cannot be stored or the student notification cannot be delivered. |
 | Environment | Grade publication during normal system operation. |
-| Artifact | Grades management, Grades Collection, Message Queue |
-| Response | If grade storage fails, the grades are not published and no notification is created. If storage succeeds but notification delivery fails, the grades remain stored and the notification stays in the Message Queue for a later retry. |
+| Artifact | Grades management, Grades Collection, Message Queue, Email Service |
+| Response | If grade storage fails, the grades are not published and no notification is created. If storage succeeds but the Email Service cannot deliver the notification, the grades remain stored and the notification stays in the Message Queue for a later retry. |
 | Response Measure | A failed storage operation leaves no partial grade update. A notification is scheduled only after successful grade storage. If delivery fails, the message remains in the queue and is available for the next retry. |
 
 ### QS-4: Lost FMS Response
